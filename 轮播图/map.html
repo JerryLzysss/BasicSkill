@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<head>
+
+</head>
+<body>
+    
+    <div class="background">
+        <div id="LeftControl"></div>
+        <div class="Map FirstMap"></div>
+        <div class="Map SecondMap"></div>
+        <div class="Map ThirdMap"></div>
+        <div class="Map FourthMap"></div>
+        <div class="Map FifthMap"></div>
+        <div id="RightControl"></div>
+        <div class="dot dot1"></div>
+        <div class="dot dot2"></div>
+        <div class="dot dot3"></div>
+        <div class="dot dot4"></div>
+    </div>
+    <style>
+        #LeftControl{
+            position:absolute;
+            top:150px;
+            left:50px;
+            width:50px;
+            height:50px;
+            background-color:white;
+            clip-path:polygon(50% 0%,50% 100%,0% 50%);
+            z-index:1;
+        }
+        #RightControl{
+            position:absolute;
+            top:150px;
+            left:475px;
+            width:50px;
+            height:50px;
+            background-color:white;
+            
+            z-index:1;
+            clip-path:polygon(50% 0%,50% 100%,100% 50%);
+        }
+        .background{
+            display:-webkit-box;
+            position:absolute;
+            top:50%;
+            left:50%;
+            width:560px;
+            height:350px;
+            overflow:hidden;
+            transform:translate(-50%,-50%);
+            
+        }
+        .Map{
+            position:relative;
+            top:0px;
+            left:0px;
+            width:560px;
+            height:350px;
+            
+        }
+       
+        .FirstMap{
+           
+            background-image:url("./1.png");
+          
+        }
+        .SecondMap{
+           
+            background-image:url("./2.png");
+           
+        }
+        .ThirdMap{
+          
+            background-image:url("./3.png");
+       
+        }
+        .FourthMap{
+           
+            background-image:url("./4.png");
+          
+        }
+        .FifthMap{
+           
+            background-image:url("./1.png");
+            
+        }
+        .dot{
+            position:absolute;
+            top:320px;
+            width:10px;
+            height:10px;
+            background-color:white;
+            border-radius:50%;
+        }
+        .dot1{
+            left:480px;
+            background-color:black;
+        }
+        .dot2{
+            left:500px;
+        }
+        .dot3{
+            left:520px;
+        }
+        .dot4{
+            left:540px;
+        }
+        @keyframes left{
+            0%{
+                left:0px;
+            }
+            25%{
+                left:-560px;
+            }
+            50%{
+                left:-1120px;
+            }
+            75%{
+                left:-1680px;
+            }
+            100%{
+                left:-2240px;
+            }
+            
+        }
+        @keyframes right{
+            0%{
+                left:-2240px;
+            }
+            25%{
+                left:-1680px;
+            }
+            50%{
+                left:-1120px;
+            }
+            75%{
+                left:-560px;
+            }
+            100%{
+                left:0px;
+            }
+        }
+    </style>
+    <script>
+        let btnLeft=document.getElementById("LeftControl")
+        let btnRight=document.getElementById("RightControl")
+        let map=document.getElementsByClassName("Map")
+        let dot=document.getElementsByClassName("dot")
+        let status=0
+        let num=0
+        let timer
+        function white(number)
+        {
+            dot[number].style.backgroundColor="white"
+        }
+        function black(number)
+        {
+            dot[number].style.backgroundColor="black"
+        }
+        btnLeft.addEventListener('click',function(){
+            if(status==0)
+            {
+                num=0
+                status=1
+                btnLeft.style.backgroundColor="gold"
+                btnRight.style.backgroundColor="white"
+                for(let i=0;i<5;i++)
+                map[i].style.animation="right 4s 0.5s infinite"
+                
+                timer=setInterval(function(){
+                    num=(num+3)%4
+                    console.log(num)
+                    switch(num)
+                    {
+                        case 0:black(0),white(1);break;
+                        case 1:black(1),white(2);break;
+                        case 2:black(2),white(3);break;
+                        case 3:black(3),white(0);break;
+                    }
+                },1000)
+            }
+            else if(status==1)
+            {
+                status=0
+                btnLeft.style.backgroundColor="white"
+                for(let i=0;i<5;i++)
+                map[i].style.animation=""
+                num=0
+                black(0)
+                white(1)
+                white(2)
+                white(3)
+                clearInterval(timer)
+            }
+        })
+        btnRight.addEventListener('click',function(){
+            if(status==0)
+            {
+                
+                status=2
+                btnLeft.style.backgroundColor="white"
+                btnRight.style.backgroundColor="gold"
+                for(let i=0;i<5;i++)
+                map[i].style.animation="left 4s 0.5s infinite"
+               
+                timer=setInterval(function(){
+                    
+                    num=(num+1)%4
+                    console.log(num)
+                    switch(num)
+                    {
+                        case 0:black(0),white(3);break;
+                        case 1:black(1),white(0);break;
+                        case 2:black(2),white(1);break;
+                        case 3:black(3),white(2);break;
+                    }
+                },1000)
+            }
+            else if(status==2)
+            {
+                
+                status=0
+                btnRight.style.backgroundColor="white"
+                for(let i=0;i<5;i++)
+                map[i].style.animation=""
+                clearInterval(timer)
+                num=0
+                black(0)
+                white(1)
+                white(2)
+                white(3)
+            }
+        })
+    </script>
+</body>
